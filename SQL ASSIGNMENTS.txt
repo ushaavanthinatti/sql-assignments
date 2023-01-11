@@ -1,0 +1,190 @@
+							       ASSIGNMENT-1	
+Create table customers(
+Id int,
+FirstName nvarchar(40),
+LastName nvarchar(40),
+city nvarchar(40),
+country nvarchar(40),
+phone varchar(40)
+primary key(Id),
+);
+
+insert into customers(Id,FirstName,LastName,city,country,phone)values(1,'usha','N','vizag','india','987654321');
+insert into customers(Id,FirstName,LastName,city,country,phone)values(2,'avanthi','U','florida','us','123456789');
+insert into customers(Id,FirstName,LastName,city,country,phone)values(3,'divya','D','paris','france','5647389021');
+
+select * from customers;
+
+Create table orders(
+Id int,
+OrderDate datetime,
+OrderNumber nvarchar(10),
+CustomerId int,
+TotalAmount decimal(12,2),
+primary key(Id),
+foreign key(customerId) references customers(Id)
+);
+
+insert into orders(Id,OrderDate,OrderNumber,CustomerId,TotalAmount)values(101,2022-01-06,5678,1,25000.70);
+insert into orders(Id,OrderDate,OrderNumber,CustomerId,TotalAmount)values(102,2020-07-18,1234,2,30000.80);
+insert into orders(Id,OrderDate,OrderNumber,CustomerId,TotalAmount)values(103,2021-05-21,7890,3,35000.50);
+
+select * from orders;
+
+create table orderItem(
+Id int,
+OrderId int,
+ProductId int,
+UnitPrice decimal(12,2),
+Quantity int,
+primary key(Id),
+foreign key(OrderId) references Orders(Id)
+);
+
+insert into OrderItem(Id,OrderId,ProductId,UnitPrice,Quantity)values(11,101,501,10000,10);
+insert into OrderItem(Id,OrderId,ProductId,UnitPrice,Quantity)values(12,102,502,20000,20);
+insert into OrderItem(Id,OrderId,ProductId,UnitPrice,Quantity)values(13,103,503,30000,30);
+
+select * from OrderItem;
+
+Create table Product(
+Id int,
+ProductName nvarchar(50),
+UnitPrice decimal(12,2),
+Package nvarchar(30),
+IsDiscontinued bit,
+Primary key(Id),
+);
+
+insert into Product values(510,'potatoes',10000,980,1);
+insert into Product values(511,'onions',20000,550,0);
+insert into Product values(512,'grapes',30000,650,1);
+
+select * from Product;
+
+
+create index IndexCustomerName
+on customers(FirstName,LastName);
+
+
+create index IndexOrderCustomerID
+on orders(OrderDate);
+
+drop table product;
+
+SELECT *
+FROM customers
+WHERE FirstName LIKE 'U%'
+OR FirstName LIKE 'D%';
+
+SELECT * 
+FROM  customer
+WHERE name LIKE '__J%'
+
+
+				   		ASSIGNMENT-2
+Create table customer(
+ID int not null,
+name varchar(20),
+fax_number varchar(10),
+country varchar(20),
+);
+
+insert into customer(ID,name,fax_number,country) values (1,'john','220034','germany');
+insert into customer(ID,name,fax_number,country) values (2,'noddy','987654','florida');
+insert into customer(ID,name,fax_number,country) values (3,'vijin','123456','canada');
+select * from customer;
+
+select * from customer where country='canada';
+
+SELECT * 
+FROM  customer
+WHERE name LIKE '__J%'
+
+ALTER TABLE customer
+ADD age int;
+
+UPDATE customer
+SET age = 25 where name='noddy';
+
+SELECT name FROM customer
+WHERE age BETWEEN 21 AND 23;
+
+create  table employee(
+eid int not null,
+ename nvarchar(50),
+rating decimal(12,2),
+dept varchar(10),
+jdate datetime,
+);
+
+insert into employee values (1,'A',9.8,'mech',2022-12-29);
+insert into employee values (2,'B',8,'electrical',2021-09-12);
+insert into employee values (3,'C',8.8,'computers',2001-01-06);
+
+select * from employee;
+
+
+alter table employee add manager nvarchar(50);
+update employee set manager='steve' where eid=1;
+update employee set manager='john' where eid=2;
+update employee set manager='peter' where eid=3;
+
+							ASSIGNMENT -3
+
+select * from orders left join customers on orders.Id=customers.Id where phone='987654321';
+
+SELECT ProductName from Product where ProductName='potatoes';
+
+select OrderDate,TotalAmount from orders inner join 
+customers on orders.Id=customers.Id where country <> 'london';
+
+
+select * from Product where ProductName ='onions';
+
+
+select ename,dept,rating from employee;
+
+
+							ASSIGNMENT-4
+
+select sum(TotalAmount)from orders
+inner join orderItem
+inner join Product on orders.Id=orderItem.OrderId 
+and orderItem.ProductId=Product.Id where ProductName='onions'; 
+
+select * from employee order by jdate DESC;
+
+
+select * from employee order by jdate;
+
+SELECT  UnitPrice,ProductName from Product order by UnitPrice DESC;
+
+
+SELECT * from Product where ((Package<UnitPrice));
+
+select ProductName from Product where Package= Null;
+
+select * from employee where SUBSTRING(dept,len(dept),2)='el';
+
+create table department(
+depid int not null primary key,
+depname varchar(20),
+location varchar(20));
+
+insert into department values (1,'mech','india');
+insert into department values (2,'develop','us');
+insert into department values (3,'electrical','africa');
+
+select * from department;
+
+
+
+
+
+
+
+
+
+
+
